@@ -47,6 +47,7 @@ function addDependency(dependency, qualifier) {
   } else {
     cmd = "npm i --save " + dependency;
   }
+  cp.execSync(cmd, { stdio: "inherit" });
 }
 
 function addDevDependency(dependency, qualifier) {
@@ -56,6 +57,7 @@ function addDevDependency(dependency, qualifier) {
   } else {
     cmd = "npm i --save-dev " + dependency;
   }
+  cp.execSync(cmd, { stdio: "inherit" });
 }
 function addPeerDependency(dependency, qualifier) {
   var cmd;
@@ -63,6 +65,7 @@ function addPeerDependency(dependency, qualifier) {
     cmd = "yarn add -P " + dependency;
   } else {
     cmd = "npm i --save" + dependency;
+    cp.execSync(cmd, { stdio: "inherit" });
     //Open package.json and save
     const packagePath = process.cwd() + "/package.json";
     if (fs.existsSync(packagePath)) {
