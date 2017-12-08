@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/rhdeck/yarnif/issues"
   },
-  "homepage": "https://github.com/rhdeck/yarnif#readme"
+  "homepage": "https://github.com/rhdeck/yarnif#readme",
+  "dependencies": {
+    "semver": "^5.4.1"
+  }
 }
