@@ -41,6 +41,7 @@ function getYarnVersionIfAvailable() {
   }
 }
 function addDependency(dependency, qualifier) {
+  dependency = fixDependency(dependency);
   var cmd;
   if (useYarn()) {
     cmd = "yarn add " + dependency;
@@ -51,6 +52,7 @@ function addDependency(dependency, qualifier) {
 }
 
 function addDevDependency(dependency, qualifier) {
+  dependency = fixDependency(dependency);
   var cmd;
   if (useYarn()) {
     cmd = "yarn add -D " + dependency;
@@ -60,6 +62,7 @@ function addDevDependency(dependency, qualifier) {
   cp.execSync(cmd, { stdio: "inherit" });
 }
 function addPeerDependency(dependency, qualifier) {
+  dependency = fixDependency(dependency);
   var cmd;
   if (useYarn()) {
     cmd = "yarn add -P " + dependency;
@@ -94,6 +97,13 @@ function install() {
   cp.execSync(cmd, { stdio: "inherit" });
 }
 
+function fixDependency(oldDependency) {
+  if (oldDependency && oldDependency.startsWith(".")) {
+    return path.resolve(oldDependency);
+  } else {
+    return oldDependency;
+  }
+}
 module.exports = {
   useYarn,
   addDependency,
