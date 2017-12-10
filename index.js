@@ -70,7 +70,7 @@ function addPeerDependency(dependency, qualifier) {
     cmd = "npm i --save" + dependency;
     cp.execSync(cmd, { stdio: "inherit" });
     //Open package.json and save
-    const packagePath = process.cwd() + "/package.json";
+    const packagePath = path.resolve(process.cwd(), "package.json");
     if (fs.existsSync(packagePath)) {
       const json = fs.readSync();
       var obj = JSON.parse(json);
