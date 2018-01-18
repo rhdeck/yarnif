@@ -92,9 +92,23 @@ function install() {
   if (useYarn()) {
     cmd = "yarn install";
   } else {
-    cmd = "npm i --save-";
+    cmd = "npm i";
   }
   cp.execSync(cmd, { stdio: "inherit" });
+}
+
+function exec(args) {
+  var cmd;
+  if (typeof args == "string") {
+    args = [args];
+  }
+  if (useYarn()) {
+    cmd = "yarn";
+  } else {
+    cmd = "npm";
+    args = ["run", ...args];
+  }
+  cp.spawnSync(cmd, args, { stdio: "inherit" });
 }
 
 function fixDependency(oldDependency) {
@@ -109,5 +123,6 @@ module.exports = {
   addDependency,
   addDevDependency,
   addPeerDependency,
-  install
+  install,
+  exec
 };
