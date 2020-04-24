@@ -40,8 +40,16 @@ function getYarnVersionIfAvailable() {
     return null;
   }
 }
-function addDependency(dependency, qualifier) {
-  dependency = fixDependency(dependency);
+function removeDependency(dependency) {
+  if (useYarn()) {
+    cmd = "yarn remove " + dependency;
+  } else {
+    cmd = "npm uninstall " + dependency;
+  }
+  cp.execSync(cmd, { stdio: "inherit" });
+}
+function addDependency(dependency, fixRelativePath = true) {
+  if (fixRelativePath) dependency = fixDependency(dependency);
   var cmd;
   if (useYarn()) {
     cmd = "yarn add " + dependency;
@@ -51,8 +59,8 @@ function addDependency(dependency, qualifier) {
   cp.execSync(cmd, { stdio: "inherit" });
 }
 
-function addDevDependency(dependency, qualifier) {
-  dependency = fixDependency(dependency);
+function addDevDependency(dependency, fixRelativePath = true) {
+  if (fixRelativePath) dependency = fixDependency(dependency);
   var cmd;
   if (useYarn()) {
     cmd = "yarn add -D " + dependency;
@@ -61,8 +69,8 @@ function addDevDependency(dependency, qualifier) {
   }
   cp.execSync(cmd, { stdio: "inherit" });
 }
-function addPeerDependency(dependency, qualifier) {
-  dependency = fixDependency(dependency);
+function addPeerDependency(dependency, fixRelativePath = true) {
+  if (fixRelativePath) dependency = fixDependency(dependency);
   var cmd;
   if (useYarn()) {
     cmd = "yarn add -P " + dependency;
@@ -124,5 +132,6 @@ module.exports = {
   addDevDependency,
   addPeerDependency,
   install,
-  exec
+  exec,
+  removeDependency,
 };
